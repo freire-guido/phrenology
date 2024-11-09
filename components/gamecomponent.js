@@ -10,13 +10,18 @@ export default function({subject}) {
     
     return (<>
         {locked ? <h2>{subject['bioname']} - {subject['party']}</h2> : <h2>&nbsp;</h2>}
-        <img
-            className='h-96'
-            src={`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`}
-        />
+        <div className="relative">
+            <img
+                className='h-96'
+                src={`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`}
+                />
+            <div className="flex flex-col place-content-center items-center absolute top-0 left-0 right-0 bottom-0 text-9xl">
+                <span className="flip">🚫</span>
+            </div>
+        </div>
         <div className="flex flex-row w-72 gap-2">
             <a>Dem</a>
-            <Slider defaultValue={[50]} max={100} step={10}></Slider>
+            <Slider defaultValue={[50]} max={100} step={10} onValueCommit={(v) => setSlider(v)}></Slider>
             <a>Rep</a>
         </div>
         {locked ?
