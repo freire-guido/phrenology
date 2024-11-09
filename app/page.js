@@ -2,11 +2,14 @@ import Image from "next/image";
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 
-export default function Home() {
+export default async function Home() {
+  let subject = await fetch(`${process.env.FETCH_URL}/api/subject`).then(res => res.json())
+  console.log(subject)
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center">
-        <h1>Phrenology</h1>
+        <h2>{subject['bioname']}</h2>
         <Image
             aria-hidden
             src="/Walt_Minnick.jpg"
