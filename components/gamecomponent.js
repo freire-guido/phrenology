@@ -7,18 +7,19 @@ import { onLocked } from "@/components/locked"
 
 import { Bar, BarChart } from "recharts"
 import { useEffect, useState } from "react"
-
+import { useRouter } from 'next/navigation'
 
 export default function GameComponent({subject}) {
     const [locked, setLocked] = useState(false)
     const [slider, setSlider] = useState(50)
     const [hist, setHist] = useState()
+    const router = useRouter()
 
     useEffect(() => {
         async function checkImage() {
             const res = await fetch(`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`)
             if (res.status != 200) {
-                window.location.reload()
+                router.push('/')
             }
         }
         checkImage()
@@ -55,7 +56,7 @@ export default function GameComponent({subject}) {
             <a>Rep</a>
         </div>
         {locked ?
-            <Button onClick={() => window.location.reload()}>Next</Button> :
+            <Button onClick={() => router.push('/')}>Next</Button> :
             <Button onClick={async () => {
                 setLocked(true)
                 setHist(await onLocked(subject, slider))
