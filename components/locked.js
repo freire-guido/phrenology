@@ -11,7 +11,7 @@ export async function onLocked(subject, slider) {
     })
 
     let histData = await statsDB.aggregate([
-        // {'$match': {bioguide_id: subject['bioguide_id']}},
+        {'$match': {bioguide_id: subject['bioguide_id']}},
         {
             '$group': {
                 '_id': '$slider',

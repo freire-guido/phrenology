@@ -1,14 +1,19 @@
 "use client"
-import React, { useEffect } from "react"
 
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import { ChartContainer } from "@/components/ui/chart"
-import { Bar, BarChart } from "recharts"
-
 import { onLocked } from "@/components/locked"
 
+import { Bar, BarChart } from "recharts"
+import { useEffect, useState } from "react"
+
+
 export default function GameComponent({subject}) {
+    const [locked, setLocked] = useState(false)
+    const [slider, setSlider] = useState(50)
+    const [hist, setHist] = useState()
+
     useEffect(() => {
         async function checkImage() {
             const res = await fetch(`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`)
@@ -19,30 +24,24 @@ export default function GameComponent({subject}) {
         checkImage()
     }, [subject])
 
-    const [locked, setLocked] = React.useState(false)
-    const [slider, setSlider] = React.useState(50)
-    const [hist, setHist] = React.useState()
-    console.log(hist)
-
     const chartConfig = {
-        _id: {label: "slider"}
+        _id: { label: "slider" }
     }
-    
     const guessedDem = slider <= 50
     const isDem = subject['party'] == 'Democrat'
     // const streak = localStorage.setItem("streak", 10)
 
     return (<>
         {locked ? <h2>{subject['bioname']} - {subject['party']}</h2> : <h2>&nbsp;</h2>}
-            <div className={locked && (guessedDem != isDem) ? "ripped rippable" : "rippable"} style={{position: "relative", height: "30vh"}}>
-                <img className="left-ripped" src={`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`}/>
-                <img className="right-ripped" src={`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`}/>
+        <div className={locked && (guessedDem != isDem) ? "ripped rippable" : "rippable"} style={{ position: "relative", height: "30vh" }}>
+            <img className="left-ripped" src={`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`} />
+            <img className="right-ripped" src={`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`} />
             {locked && <div className="flex flex-col place-content-center items-center absolute top-0 left-0 right-0 bottom-0 text-9xl">
                 <span className="flip">
                     {guessedDem == isDem ? '✅' : '🚫'}
                 </span>
             </div>}
-            </div>
+        </div>
         <div className="flex flex-row w-72 gap-2">
             <a>Dem</a>
             <div className="flex flex-col">
