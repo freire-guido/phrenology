@@ -8,7 +8,7 @@ import { Bar, BarChart } from "recharts"
 
 import { onLocked } from "@/components/locked"
 
-export default function({subject}) {
+export default function GameComponent({subject}) {
     useEffect(() => {
         async function checkImage() {
             const res = await fetch(`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`)
@@ -17,7 +17,7 @@ export default function({subject}) {
             }
         }
         checkImage()
-    }, [])
+    }, [subject])
 
     const [locked, setLocked] = React.useState(false)
     const [slider, setSlider] = React.useState(50)
