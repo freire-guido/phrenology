@@ -4,6 +4,8 @@ import React, { useEffect } from "react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 
+import { onLocked } from "@/components/locked"
+
 export default function({subject}) {
     useEffect(() => {
         async function checkImage() {
@@ -20,6 +22,8 @@ export default function({subject}) {
 
     const guessedDem = slider <= 50
     const isDem = subject['party'] == 'Democrat'
+    // const streak = localStorage.setItem("streak", 10)
+    console.log(slider)
 
     return (<>
         {locked ? <h2>{subject['bioname']} - {subject['party']}</h2> : <h2>&nbsp;</h2>}
@@ -34,12 +38,15 @@ export default function({subject}) {
             </div>
         <div className="flex flex-row w-72 gap-2">
             <a>Dem</a>
-            <Slider defaultValue={[50]} max={100} step={10} onValueCommit={(v) => setSlider(v)}></Slider>
+            <Slider defaultValue={[50]} max={100} step={10} onValueCommit={(v) => setSlider(v[0])}></Slider>
             <a>Rep</a>
         </div>
         {locked ?
             <Button onClick={() => window.location.reload()}>Next</Button> :
-            <Button onClick={() => setLocked(true)}>Lock in</Button>
+            <Button onClick={() => {
+                setLocked(true)
+                onLocked(subject, slider)
+            }}>Lock in</Button>
         }
     </>)
 }

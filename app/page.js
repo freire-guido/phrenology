@@ -3,7 +3,6 @@ import GameComponent from "@/components/gamecomponent"
 
 export default async function Home() {
   let subject = await fetch(`${process.env.FETCH_URL}/api/subject`).then(res => res.json())
-  const res = await fetch(`https://theunitedstates.io/images/congress/original/${subject['bioguide_id']}.jpg`)
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
